@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: iperf3
+  labels:
+   name: iperf3
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: iperf3
+  namespace: iperf3
+  labels:
+    k8s-app: iperf3
+spec:
+  template:
+    metadata:
+      labels:
+        name: iperf3
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: iperf3
+        image: acloudiator/iperf3:latest
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+      terminationGracePeriodSeconds: 30
