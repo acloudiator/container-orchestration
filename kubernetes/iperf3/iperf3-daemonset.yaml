@@ -39,6 +39,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: iperf3
+  namespace: iperf3
 spec:
   selector:
     app: iperf3
