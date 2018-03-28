@@ -13,6 +13,9 @@ metadata:
   labels:
     k8s-app: iperf3
 spec:
+  selector:
+    matchLabels:
+      name: iperf3
   template:
     metadata:
       labels:
