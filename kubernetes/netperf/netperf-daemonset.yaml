@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: netperf
+  labels:
+   name: netperf
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: netperf
+  namespace: netperf
+  labels:
+    k8s-app: netperf
+spec:
+  selector:
+    matchLabels:
+      name: netperf
+  template:
+    metadata:
+      labels:
+        name: netperf
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: netperf
+        image: acloudiator/netperf:latest
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+      terminationGracePeriodSeconds: 30
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: netperf
+  namespace: netperf
+spec:
+  selector:
+    app: netperf
+  ports:
+  - protocol: TCP
+    port: 5201
+    targetPort: 5201
