@@ -45,5 +45,5 @@ spec:
     app: netperf
   ports:
   - protocol: TCP
-    port: 5201
-    targetPort: 5201
+    port: 12865
+    targetPort: 12865
